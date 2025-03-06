@@ -164,3 +164,38 @@ index.blade.php
 <?php
 
  php artisan serve
+
+
+
+
+<input type="text" id="num" placeholder="Enter a number">
+<button onclick="checkArmstrong()">Check</button>
+<p id="result"></p>
+
+<script>
+function checkArmstrong() {
+    var num = document.getElementById("num").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "armstrong.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onload = function () {
+        document.getElementById("result").innerHTML = this.responseText;
+    };
+    xhr.send("num=" + num);
+}
+</script>
+
+
+<?php
+if(isset($_POST['num'])) {
+    $num = $_POST['num'];
+    $sum = 0; $temp = $num;
+    while ($temp != 0) {
+        $digit = $temp % 10;
+        $sum += $digit ** strlen($num);
+        $temp = (int)($temp / 10);
+    }
+    echo ($sum == $num) ? "$num is an Armstrong number" : "$num is not an Armstrong number";
+}
+?>
+armstrong.php
